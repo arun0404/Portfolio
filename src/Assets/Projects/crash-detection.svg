@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" width="400" height="260">
+  <defs>
+    <linearGradient id="bg3" x1="0" y1="0" x2="400" y2="260" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1c1330"/>
+      <stop offset="1" stop-color="#0c0513"/>
+    </linearGradient>
+    <radialGradient id="glow3" cx="0.5" cy="0.5" r="0.6">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="card3" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="260" rx="14" fill="url(#bg3)"/>
+  <circle cx="200" cy="140" r="140" fill="url(#glow3)"/>
+
+  <text x="30" y="40" fill="#e8e2f0" font-family="Georgia, serif" font-size="20" font-weight="bold">Crash Impact Detection</text>
+
+  <!-- road -->
+  <rect x="0" y="196" width="400" height="64" fill="#181022"/>
+  <g stroke="#3d2a52" stroke-width="4" stroke-dasharray="16 14">
+    <line x1="0" y1="228" x2="400" y2="228"/>
+  </g>
+
+  <!-- vehicle silhouette -->
+  <g transform="translate(150 150)">
+    <path d="M-90 46 q4 -34 30 -40 l14 -22 q6 -10 20 -10 h56 q14 0 20 10 l14 22 q26 6 30 40 Z"
+          fill="url(#card3)"/>
+    <rect x="-56" y="-24" width="56" height="30" rx="8" fill="#1a1425" opacity="0.55"/>
+    <rect x="6" y="-24" width="50" height="30" rx="8" fill="#1a1425" opacity="0.55"/>
+    <circle cx="-58" cy="48" r="16" fill="#0c0513" stroke="#4a3766" stroke-width="4"/>
+    <circle cx="58" cy="48" r="16" fill="#0c0513" stroke="#4a3766" stroke-width="4"/>
+  </g>
+
+  <!-- YOLO bounding box + confidence -->
+  <rect x="56" y="78" width="188" height="126" rx="6" fill="none" stroke="#22d3ee" stroke-width="3"/>
+  <path d="M56 78 h20 M56 78 v20 M244 204 h-20 M244 204 v-20" stroke="#22d3ee" stroke-width="5" stroke-linecap="round"/>
+  <rect x="56" y="60" width="118" height="24" rx="4" fill="#22d3ee"/>
+  <text x="64" y="77" fill="#0c0513" font-family="Verdana, sans-serif" font-size="13" font-weight="bold">damage: 0.87</text>
+
+  <!-- impact mark -->
+  <path d="M190 110 l10 -18 l6 14 l14 -10 l-8 20 l16 4 l-18 8 l6 16 l-16 -10 l-4 18 l-6 -16 l-16 8 l8 -18 l-16 -6 Z"
+        fill="#f6c453" opacity="0.9"/>
+
+  <!-- mAP badge -->
+  <g transform="translate(320 226)">
+    <rect x="-56" y="-18" width="112" height="36" rx="18" fill="#0c0513" stroke="#3d2a52" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" fill="#e8e2f0" font-family="Verdana, sans-serif" font-size="14" font-weight="bold">~87% mAP</text>
+  </g>
+</svg>

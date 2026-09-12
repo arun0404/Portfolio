@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" width="400" height="260">
+  <defs>
+    <linearGradient id="bg6" x1="0" y1="0" x2="400" y2="260" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1c1330"/>
+      <stop offset="1" stop-color="#0c0513"/>
+    </linearGradient>
+    <radialGradient id="glow6" cx="0.5" cy="0.45" r="0.6">
+      <stop offset="0" stop-color="#22d3ee" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#22d3ee" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="card6" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="260" rx="14" fill="url(#bg6)"/>
+  <circle cx="200" cy="120" r="140" fill="url(#glow6)"/>
+
+  <text x="30" y="40" fill="#e8e2f0" font-family="Georgia, serif" font-size="19" font-weight="bold">Voice RAG Chatbot</text>
+
+  <!-- chat bubble -->
+  <g transform="translate(120 130)">
+    <path d="M-70 -40 h140 a14 14 0 0 1 14 14 v50 a14 14 0 0 1 -14 14 h-96 l-24 22 v-22 h-20 a14 14 0 0 1 -14 -14 v-50 a14 14 0 0 1 14 -14 Z"
+          fill="url(#card6)"/>
+    <g stroke="#ffffff" stroke-opacity="0.85" stroke-width="5" stroke-linecap="round">
+      <path d="M-46 -12 h96"/>
+      <path d="M-46 8 h64"/>
+    </g>
+  </g>
+
+  <!-- mic + waveform -->
+  <g transform="translate(300 120)">
+    <rect x="-14" y="-46" width="28" height="52" rx="14" fill="#22d3ee"/>
+    <path d="M-26 -6 a26 26 0 0 0 52 0" stroke="#22d3ee" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <line x1="0" y1="20" x2="0" y2="38" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+    <line x1="-16" y1="38" x2="16" y2="38" stroke="#22d3ee" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <g stroke="#c770f0" stroke-width="4" stroke-linecap="round">
+    <line x1="240" y1="130" x2="240" y2="112"/>
+    <line x1="252" y1="130" x2="252" y2="96"/>
+    <line x1="264" y1="130" x2="264" y2="120"/>
+  </g>
+
+  <!-- vector doc chip -->
+  <g transform="translate(90 208)">
+    <rect x="-64" y="-18" width="128" height="36" rx="8" fill="#1a1425" stroke="#3d2a52" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" fill="#cfc7db" font-family="Verdana, sans-serif" font-size="12">FAISS + Bedrock</text>
+  </g>
+
+  <!-- accuracy badge -->
+  <g transform="translate(300 208)">
+    <rect x="-58" y="-18" width="116" height="36" rx="18" fill="#0c0513" stroke="#3d2a52" stroke-width="1.5"/>
+    <text x="0" y="6" text-anchor="middle" fill="#e8e2f0" font-family="Verdana, sans-serif" font-size="13" font-weight="bold">~83% retrieval</text>
+  </g>
+</svg>

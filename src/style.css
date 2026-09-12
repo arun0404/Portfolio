@@ -1,0 +1,1083 @@
+html {
+  --section-background-color: linear-gradient(
+    to bottom left,
+    rgba(17, 16, 16, 0.582),
+    rgba(12, 8, 24, 0.904)
+  );
+
+  --image-gradient: linear-gradient(
+    to bottom left,
+    rgba(17, 16, 16, 0.678),
+    rgba(12, 10, 22, 0.863)
+  );
+
+  --imp-text-color: #c770f0;
+
+  /* Theme tokens — the Navbar/Footer/buttons are a fixed dark "chrome" in
+     both themes (unchanged), only page content repaints between them. */
+  --body-gradient: linear-gradient(to left, rgb(27 20 41), rgb(20 15 35));
+  --text-color: #ffffff;
+  --heading-color: #ffffff;
+  --quote-footer-color: #a588c0;
+
+  /* Single-page layout: nav links jump to #home/#about/etc. via native
+     anchor navigation — this is what actually animates that jump. */
+  scroll-behavior: smooth;
+}
+
+/* Anchor-jumping to a section normally aligns its top edge with the
+   viewport's top edge — which is exactly where the fixed navbar sits, so
+   the destination's heading would land underneath it. scroll-margin-top
+   is the purpose-built fix for this (offsets *where a scroll lands*
+   without adding visible space, unlike padding-top, which most of these
+   sections already have plenty of internally anyway). */
+section#home,
+section#about,
+section#projects,
+section#resume,
+section#contact {
+  scroll-margin-top: 80px;
+}
+
+/* Light theme — toggled by ThemeToggle.js via [data-theme="light"] on <html> */
+html[data-theme="light"] {
+  --section-background-color: linear-gradient(
+    to bottom left,
+    rgba(248, 250, 252, 0.6),
+    rgba(226, 232, 240, 0.88)
+  );
+
+  /* Deep, high-contrast purple — the previous #7c3aed reads noticeably
+     softer once headings around it are solid black. */
+  --imp-text-color: #5b21b6;
+
+  --body-gradient: linear-gradient(to bottom, #f8fafc, #edf2f7);
+  --text-color: #241c33;
+  --heading-color: #0f172a;
+  --quote-footer-color: #6b4f8a;
+}
+
+.purple {
+  color: var(--imp-text-color) !important;
+}
+
+/* Page titles, section headings ("Know Who I'M", "My Recent Works", the
+   hero "Hi There!" / "I'M ARUN KUMAR", etc.) get their own token so they
+   read as solid black in light mode independent of body-copy color —
+   only .purple-highlighted words inside them keep the accent. */
+h1,
+h2,
+h3 {
+  /* !important is required here: Bootstrap's own CSS (imported after
+     style.css in App.js) sets an equal-specificity h1/h2/h3 color rule
+     of its own and, loading later, would otherwise win the cascade. */
+  color: var(--heading-color) !important;
+}
+
+button:focus {
+  box-shadow: none !important;
+}
+
+/* Keeps rapid/repeated clicks on chips, nav links, and icon buttons from
+   triggering the browser's native text-selection highlight. */
+.no-select,
+button,
+.navbar-nav .nav-item a,
+.social-icons a,
+.home-social-icons,
+.icon-colour {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Images, links, and headings are natively draggable in browsers — an
+   accidental click-and-drag (common on trackpads) starts a native "ghost
+   image" drag instead of registering as a click, which can eat the click
+   entirely. Only -webkit-user-drag actually does anything in any current
+   browser (Firefox has never implemented drag-disabling via CSS and
+   ignores -moz-user-drag) — the other prefixes below are inert but
+   harmless, kept for parity with older WebKit/Presto-based browsers. */
+img,
+svg,
+picture,
+canvas,
+a,
+h1,
+h2,
+h3,
+h4,
+.navbar-brand,
+.nav-link {
+  -webkit-user-drag: none;
+  -khtml-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+}
+
+img,
+svg,
+picture,
+canvas {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* Same click-and-drag problem, but for text selection: dragging across a
+   heading, icon pill, nav item, or the hero typewriter text shouldn't
+   highlight it like a text selection. .heading-name is redundant with the
+   bare h1 rule below (it's applied to an <h1>) but listed explicitly for
+   clarity; .Typewriter__wrapper/__cursor are typewriter-effect's own
+   internal markup, .typewriter-no-select is the wrapper Type.js renders
+   around it so this still holds even if that library's class names change. */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.heading-name,
+.tech-icons,
+.navbar-nav .nav-item,
+.project-heading,
+.typewriter-no-select,
+.Typewriter__wrapper,
+.Typewriter__cursor {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+/* The search box is the one place drag/select-style mouse behavior should
+   stay completely normal — explicit so it can't be caught by a broader
+   rule above or added later. */
+.project-search-input {
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+/* --------- */
+/*  Preloader */
+/* --------- */
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 999999;
+  background-color: #0c0513;
+  background-image: url(./Assets/pre.svg);
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+#preloader-none {
+  opacity: 0;
+}
+
+/* #preloader-none {
+  opacity: 0;
+  display: none;
+} */
+
+#no-scroll {
+  overflow: hidden;
+  height: 100vh;
+}
+
+/* --------- */
+/*Scrollbar   */
+/* --------- */
+
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #2d1950;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: rgba(178, 121, 216, 0.959);
+  border-radius: 12px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(222, 130, 235, 0.911);
+  border-radius: 12px;
+}
+
+/* --------- */
+/* Navbar Section  */
+/* --------- */
+.sticky {
+  background-color: #1b1a2ea9 !important;
+  transition: all 0.3s ease-out 0s !important;
+  box-shadow: 0px 10px 10px 0px rgba(9, 5, 29, 0.171) !important;
+  backdrop-filter: blur(15px) !important;
+}
+
+.navbar {
+  position: fixed !important;
+  transition: all 0.3s ease-out 0s !important;
+  padding: 0.3rem 2rem !important;
+  font-size: 1.2rem !important;
+}
+
+/* The unscrolled navbar is transparent by design, which only works because
+   the page behind it is always dark. Light theme needs its own dark
+   backing so the white nav text/icons stay legible before you scroll. */
+html[data-theme="light"] .navbar {
+  background-color: rgba(20, 15, 32, 0.6) !important;
+  backdrop-filter: blur(10px);
+}
+
+.navbar-toggler {
+  position: relative !important;
+  background-color: transparent !important;
+  border-color: transparent !important;
+}
+
+.navbar-toggler span {
+  display: block !important;
+  background-color: #be50f4 !important;
+  height: 4px !important;
+  width: 27px !important;
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+  transform: rotate(0deg) !important;
+  left: 0 !important;
+  opacity: 1 !important;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  outline: 0 !important;
+}
+
+.navbar-toggler span:nth-child(1),
+.navbar-toggler span:nth-child(3) {
+  transition: transform 0.35s ease-in-out !important;
+  transition: transform 0.35s ease-in-out !important;
+}
+
+.navbar-toggler:not(.collapsed) span:nth-child(1) {
+  position: absolute !important;
+  left: 12px !important;
+  top: 10px !important;
+  transform: rotate(135deg) !important;
+  opacity: 0.9 !important;
+}
+
+.navbar-toggler:not(.collapsed) span:nth-child(2) {
+  height: 12px !important;
+  visibility: hidden !important;
+  background-color: transparent !important;
+}
+
+.navbar-toggler:not(.collapsed) span:nth-child(3) {
+  position: absolute !important;
+  left: 12px !important;
+  top: 10px !important;
+  transform: rotate(-135deg) !important;
+  opacity: 0.9 !important;
+}
+
+@media (max-width: 767px) {
+  .navbar {
+    padding: 1rem 2rem !important;
+    font-size: 1.4rem !important;
+    background-color: #181a27 !important;
+  }
+  .navbar-nav .nav-item a::after {
+    display: none !important;
+  }
+}
+.navbar-brand {
+  color: rgb(250, 250, 250) !important;
+}
+
+.logo {
+  height: 1.4em !important;
+  width: 2.5em !important;
+}
+
+.logo-text {
+  color: var(--imp-text-color) !important;
+  font-weight: 800;
+  font-size: 1.8em;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.logo-text:hover {
+  color: var(--imp-text-color) !important;
+}
+
+.navbar-nav .nav-link {
+  color: white !important;
+  padding-right: 1rem !important;
+  padding-left: 1rem !important;
+}
+
+.nav-link {
+  padding: 0.8rem 1rem !important;
+}
+
+@media (max-width: 767px) {
+  .nav-link {
+    padding: 0.7rem 1rem !important;
+  }
+}
+
+.navbar-nav .nav-item {
+  position: relative;
+  margin-left: 20px;
+}
+
+.navbar-nav .nav-item a {
+  font-weight: 400;
+  transition: all 0.3s ease-out 0s;
+  position: relative;
+  z-index: 1;
+}
+
+.navbar-nav .nav-item a::after {
+  content: "";
+  position: relative;
+  display: block;
+  height: 5px;
+  width: 0;
+  border-radius: 16px;
+  background: #c95bf5;
+  bottom: 1px;
+  left: 0;
+  z-index: -1;
+  transition: all 0.3s ease-out 0s;
+}
+
+.navbar-nav .nav-item a:hover::after {
+  width: 100%;
+}
+
+/* Scroll-spy: whichever nav link matches the section currently in view
+   (Navbar.js's IntersectionObserver toggles this class) gets the same
+   underline the :hover state already uses, so it stays visible without
+   needing the mouse there. */
+.navbar-nav .nav-item a.active::after {
+  width: 100%;
+}
+
+/* --------- */
+/* Home section */
+/* --------- */
+.wave {
+  animation-name: wave-animation; /* Refers to the name of your @keyframes element below */
+  animation-duration: 2.1s; /* Change to speed up or slow down */
+  animation-iteration-count: infinite; /* Never stop waving :) */
+  transform-origin: 70% 70%; /* Pivot around the bottom-left palm */
+  display: inline-block;
+}
+
+@keyframes wave-animation {
+  0% {
+    transform: rotate(0deg);
+  }
+  10% {
+    transform: rotate(14deg);
+  } /* The following five values can be played with to make the waving more or less extreme */
+  20% {
+    transform: rotate(-8deg);
+  }
+  30% {
+    transform: rotate(14deg);
+  }
+  40% {
+    transform: rotate(-4deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+  60% {
+    transform: rotate(0deg);
+  } /* Reset for the last half to pause */
+  100% {
+    transform: rotate(0deg);
+  }
+}
+#tsparticles {
+  position: fixed !important;
+  background-repeat: no-repeat !important;
+  background-size: cover !important;
+  width: 100%;
+  height: 100%;
+  /* Without an explicit z-index, this fixed full-viewport layer paints
+     above ordinary static-positioned content (per CSS stacking rules,
+     "positioned, z-index:auto" paints after in-flow static content) and
+     silently swallows every click meant for the UI underneath it — inputs,
+     buttons, links, chips — on every page. Pin it behind everything. */
+  z-index: -1 !important;
+}
+
+.home-header {
+  padding-top: 80px !important;
+}
+
+.home-section {
+  position: relative;
+  z-index: -1;
+  /* background-image: var(--image-gradient), url(./Assets/home-bg.jpg); */
+  background-position: top center;
+  background-repeat: no-repeat;
+  padding-bottom: 30px !important;
+  padding-top: 30px !important;
+}
+
+.home-content {
+  padding: 9rem 0 2rem !important;
+  color: var(--text-color);
+  text-align: left;
+}
+
+.heading {
+  font-size: 2.4em !important;
+  padding-left: 50px !important;
+}
+
+.heading-name {
+  font-size: 2.5em !important;
+  padding-left: 45px !important;
+}
+
+.main-name {
+  /* Was a hardcoded pink-purple, invisible-contrast risk in light mode
+     just like the old --imp-text-color default was — track the theme's
+     accent instead so it darkens in light mode along with .purple. */
+  color: var(--imp-text-color);
+}
+
+.Typewriter__wrapper {
+  font-size: 2.2em !important;
+  color: #be6adf !important;
+  font-weight: 600 !important;
+}
+.Typewriter__cursor {
+  font-size: 2.4em !important;
+  color: #b562d6 !important;
+}
+
+@media (max-width: 767px) {
+  .Typewriter__wrapper {
+    font-size: 1.4em !important;
+    font-weight: 500 !important;
+    position: absolute !important;
+  }
+  .Typewriter__cursor {
+    display: none !important;
+  }
+}
+
+.myAvtar {
+  justify-content: center !important;
+  padding-top: 9em !important;
+}
+
+@media (max-width: 767px) {
+  .myAvtar {
+    padding-top: 2em !important;
+    padding-bottom: 2em !important;
+  }
+}
+
+.home-about-section {
+  position: relative;
+  padding-bottom: 70px !important;
+  padding-top: 70px !important;
+}
+
+.home-about-description {
+  color: var(--text-color) !important;
+  padding-top: 100px !important;
+  padding-bottom: 20px !important;
+  text-align: center;
+}
+
+.home-about-body {
+  padding-top: 50px;
+  font-size: 1.2em !important;
+  text-align: left;
+}
+
+.home-about-social {
+  text-align: center !important;
+  padding-top: 25px;
+  color: var(--text-color) !important;
+}
+
+.home-about-social-links {
+  justify-content: center !important;
+  padding-top: 15px !important;
+  display: inline-block !important;
+  position: relative !important;
+  padding-inline-start: 0 !important;
+}
+
+.home-social-icons {
+  position: relative !important;
+  display: inline-block !important;
+  width: 40px !important;
+  height: 40px !important;
+  text-align: center !important;
+  font-size: 1.2em !important;
+  line-height: 2em !important;
+  background: rgba(255, 255, 255, 0.972) !important;
+  border-radius: 50% !important;
+  transition: 0.5s !important;
+}
+
+.home-social-icons::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #68187a;
+  transition: 0.5s;
+  transform: scale(0.9);
+  z-index: -1;
+}
+
+.home-social-icons:hover::before {
+  transform: scale(1.1);
+  box-shadow: 0 0 15px #801f95;
+}
+
+.home-social-icons:hover {
+  color: #87209e;
+  box-shadow: 0 0 5px #87209e;
+  text-shadow: 0 0 2px #87209e;
+}
+
+.social-icons {
+  display: inline-block !important;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.icon-colour {
+  color: #700c86 !important;
+}
+
+/* --------- */
+/* Footer */
+/* --------- */
+.footer {
+  background-color: rgb(10, 4, 22);
+  bottom: 0 !important;
+  padding-top: 10px !important;
+  padding-bottom: 8px !important ;
+}
+.footer-copywright {
+  text-align: center !important;
+}
+
+.footer-body {
+  z-index: 1;
+  text-align: center !important;
+}
+
+@media (max-width: 767px) {
+  .footer-copywright {
+    text-align: center !important;
+  }
+
+  .footer-body {
+    text-align: center !important;
+  }
+}
+
+.footer h3 {
+  font-size: 1em;
+  color: white !important;
+  margin-top: 0.5em !important;
+  margin-bottom: 0.5em !important;
+}
+.footer-icons {
+  margin-top: 0.5em !important;
+  margin-bottom: 0.5em !important;
+  padding: 0 !important;
+}
+
+.blockquote-footer {
+  color: var(--quote-footer-color) !important;
+}
+/* --------- */
+/* Projects */
+/* --------- */
+.project-section {
+  position: relative !important;
+  padding-top: 150px !important;
+  padding-bottom: 30px !important;
+  /* Was layering a translucent dark gradient on top of the particle
+     canvas here, dimming it compared to Home/About (which never had this
+     overlay) — dropped to match their fully-transparent treatment. */
+  /* background-image: var(--section-background-color) !important; */
+}
+
+.project-card {
+  padding-top: 50px !important;
+  padding-bottom: 50px !important;
+  padding-left: 25px !important;
+  padding-right: 25px !important;
+  height: auto !important;
+}
+
+.project-card-view {
+  box-shadow: 0 4px 5px 3px rgba(119, 53, 136, 0.459) !important;
+  color: var(--text-color) !important;
+  background-color: transparent !important;
+  opacity: 0.9 !important;
+  transition: all 0.5s ease 0s !important;
+  height: 100% !important;
+}
+.project-card-view:hover {
+  transform: scale(1.02) !important;
+  overflow: hidden !important;
+  box-shadow: 0 4px 4px 5px rgba(129, 72, 144, 0.561) !important;
+}
+
+.project-card-tag {
+  display: inline-block;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--imp-text-color);
+  border: 1px solid var(--imp-text-color);
+  border-radius: 20px;
+  padding: 3px 12px;
+  margin-bottom: 12px;
+}
+
+.project-filter-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 20px 0 34px;
+}
+
+.project-search-input {
+  background: transparent;
+  border: 1.5px solid rgba(199, 112, 240, 0.4);
+  border-radius: 20px;
+  padding: 8px 18px;
+  color: var(--text-color);
+  font-size: 0.9rem;
+  min-width: 220px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.project-search-input::placeholder {
+  color: var(--text-color);
+  opacity: 0.55;
+}
+
+.project-search-input:focus {
+  border-color: var(--imp-text-color);
+  box-shadow: 0 0 8px rgba(199, 112, 240, 0.35);
+}
+
+.project-filter-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.project-filter-chip {
+  background: transparent;
+  border: 1.5px solid rgba(199, 112, 240, 0.4);
+  border-radius: 20px;
+  padding: 6px 16px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.project-filter-chip:hover {
+  border-color: var(--imp-text-color);
+}
+
+.project-filter-chip.active {
+  background: var(--imp-text-color);
+  border-color: var(--imp-text-color);
+  color: #ffffff;
+}
+
+.project-empty-state {
+  color: var(--text-color);
+  opacity: 0.7;
+  padding: 40px 0;
+  text-align: center;
+  width: 100%;
+}
+
+.blog-card {
+  padding-top: 50px !important;
+  padding-bottom: 50px !important;
+  padding-left: 25px !important;
+  padding-right: 25px !important;
+  height: auto !important;
+}
+
+.blog-card-view {
+  background-color: transparent !important;
+  box-shadow: 0 3px 3px 2px rgba(145, 77, 161, 0.459) !important;
+  color: var(--text-color) !important;
+  transition: all 0.5s ease 0s !important;
+  height: 100% !important;
+}
+
+.blog-link {
+  color: var(--text-color) !important;
+  text-decoration: none !important;
+}
+
+.blog-link:hover {
+  cursor: pointer !important;
+}
+
+.blog-card-view:hover {
+  transform: scale(1.02) !important;
+  overflow: hidden !important;
+  box-shadow: 0 3px 3px 5px rgba(155, 88, 173, 0.65) !important;
+}
+
+.card-img-top {
+  padding: 20px !important;
+  opacity: 0.8 !important;
+  border-radius: 10px !important;
+}
+
+.blog-img {
+  padding: 0px !important;
+  opacity: 0.8 !important;
+  border-radius: 0px !important;
+}
+
+.btn-primary {
+  color: #fff !important;
+  background-color: #623686 !important;
+  border-color: #623686 !important;
+}
+
+.btn-primary:hover {
+  color: #fff !important;
+  background-color: #6d20c5d7 !important;
+  border-color: #6d20c5d7 !important;
+}
+.btn:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.project-heading {
+  color: var(--heading-color) !important;
+  font-size: 2.3em !important;
+  font-weight: 500 !important;
+  padding-top: 10px !important;
+}
+
+/* --------- */
+/* About */
+/* --------- */
+
+.about-section {
+  position: relative !important;
+  padding-top: 150px !important;
+  padding-bottom: 30px !important;
+  /* background-image: var(--section-background-color) !important; */
+  color: var(--text-color) !important;
+}
+
+/* --------- */
+/* Contact */
+/* --------- */
+
+.contact-section {
+  position: relative !important;
+  padding-top: 150px !important;
+  padding-bottom: 100px !important;
+  /* Dropped for the same reason as .project-section above — matches the
+     particle-canvas brightness on Home/About. */
+  /* background-image: var(--section-background-color) !important; */
+  color: var(--text-color) !important;
+  /* flex: 1 0 auto / min-height: 100% used to stretch this section to fill
+     .page-content when Contact was the only thing routed into it — now
+     that all pages stack inside one <section id="contact"> among five,
+     those two only made sense relative to a flex container this element
+     is no longer a direct child of. display:flex below is still doing
+     real work: it centers Contact's own content vertically within itself. */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact-text {
+  text-align: center !important;
+}
+
+.contact-text p {
+  padding-top: 15px;
+  padding-bottom: 10px;
+}
+
+.contact-mail-btn {
+  margin-bottom: 10px;
+}
+
+.contact-social-links {
+  display: block !important;
+}
+
+.tech-icons {
+  display: flex !important;
+  align-self: center !important;
+  justify-content: center !important;
+  font-size: 1rem !important;
+  margin: 15px !important;
+  padding: 10px 20px !important;
+  opacity: 0.93 !important;
+  outline: 1.7px solid rgba(200, 137, 230, 0.637) !important;
+  vertical-align: middle !important;
+  text-align: center !important;
+  border-radius: 24px !important;
+  box-shadow: 4px 5px 4px 3px rgba(89, 4, 168, 0.137) !important;
+  overflow: hidden !important;
+  transition: all 0.4s ease 0s !important;
+  width: fit-content !important;
+  cursor: pointer !important;
+  transition: outline-color 0.3s, outline-width 0.3s, transform 0.3s;
+  color: var(--text-color);
+}
+
+.tech-icons-text {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  color: var(--text-color);
+}
+
+@media (max-width: 767px) {
+  .tech-icons {
+    margin: 10px !important;
+  }
+}
+
+.tech-icons:hover {
+  transform: scale(1.05) !important;
+  overflow: hidden !important;
+  outline: 2.2px solid rgba(197, 115, 230, 0.883) !important;
+}
+.tech-icon-images {
+  height: 1.6rem;
+  line-height: 1.6 !important;
+}
+
+.quote-card-view {
+  border: none !important;
+  color: var(--text-color) !important;
+  background-color: transparent !important;
+}
+
+.about-activity {
+  list-style: none !important;
+  text-align: left !important;
+  padding-left: 1px !important;
+}
+
+@media (max-width: 767px) {
+  .about-img {
+    padding-top: 0 !important;
+  }
+}
+/* --------- */
+/* Resume */
+/* --------- */
+
+.resume-section {
+  position: relative !important;
+  padding-top: 110px !important;
+  padding-bottom: 30px !important;
+  /* Dropped for the same reason as .project-section above — matches the
+     particle-canvas brightness on Home/About. */
+  /* background-image: var(--section-background-color) !important; */
+  color: var(--text-color) !important;
+}
+
+.resume {
+  padding-top: 50px;
+  padding-bottom: 50px;
+  justify-content: center;
+}
+
+.resume-left {
+  padding-right: 80px !important;
+}
+
+.resume-right {
+  padding-left: 80px !important;
+}
+
+@media (max-width: 767px) {
+  .resume-left {
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+  }
+
+  .resume-right {
+    padding-right: 15px !important;
+    padding-left: 15px !important;
+  }
+}
+.resume .resume-title {
+  font-size: 2em;
+  font-weight: 700;
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+.resume .resume-item {
+  padding: 0 0 10px 25px;
+  margin-top: -2px;
+  border-left: 2px solid #8a49a8;
+  position: relative;
+}
+
+.resume .resume-item .resume-title {
+  line-height: 18px;
+  font-size: 0.9em;
+  background: #5234795d;
+  padding: 8px 15px;
+  display: inline-block;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.resume .resume-item ul {
+  padding-left: 20px;
+  text-align: justify;
+}
+
+.resume .resume-item ul li {
+  padding-bottom: 10px;
+  list-style: none;
+}
+
+.resume .resume-item:last-child {
+  padding-bottom: 0;
+}
+
+.resume .resume-item::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 50px;
+  left: -9px;
+  top: 0;
+  background: #fff;
+  border: 2px solid #8a49a8;
+}
+
+.like-item {
+  padding-top: 10px !important;
+  font-size: 1.1em !important;
+  font-family: sans-serif !important;
+}
+
+.like-btn {
+  background-color: #934cce5e !important;
+  border-color: #934cce5e !important;
+  padding: 0.25rem 0.98rem !important;
+  border-radius: 5px !important;
+  line-height: 1.4 !important;
+  transition: 0.3s ease !important;
+}
+
+.like-btn:hover {
+  transform: translateY(-2px) !important;
+  background-color: #a24dd386 !important;
+  border-color: #a24dd386 !important;
+}
+
+.animate-like {
+  animation-name: likeAnimation;
+  animation-fill-mode: forwards;
+  animation-duration: 0.85s;
+}
+@keyframes likeAnimation {
+  0% {
+    transform: scale(1.5);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.fork-btn {
+  font-size: 1.1em !important;
+  padding-top: 10px !important;
+}
+
+.fork-btn-inner {
+  line-height: 1.4em !important;
+  background-color: #934cce5e !important;
+  padding: 0.25rem 1.1rem !important;
+  vertical-align: middle !important;
+  text-align: center !important;
+}
+
+.fork-btn-inner:hover {
+  transform: translateY(-2px) !important;
+  background-color: #a24dd386 !important;
+  border-color: #a24dd386 !important;
+}
+.fork-btn-inner::after {
+  display: none !important;
+}
+
+.theme-toggle-item {
+  display: flex;
+  align-items: center;
+}
+
+.theme-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  background: transparent;
+  color: white;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease-out 0s;
+}
+
+.theme-toggle-btn:hover {
+  color: var(--imp-text-color) !important;
+  border-color: var(--imp-text-color) !important;
+  box-shadow: 0 0 8px rgba(199, 112, 240, 0.5);
+}

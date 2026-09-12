@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000" width="1000" height="1000" fill="none">
+  <defs>
+    <linearGradient id="chip" x1="330" y1="300" x2="700" y2="720" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8b5cf6"/>
+      <stop offset="1" stop-color="#c770f0"/>
+    </linearGradient>
+    <linearGradient id="card" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#c770f0" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#c770f0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ring" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#22d3ee"/>
+      <stop offset="1" stop-color="#c770f0"/>
+    </linearGradient>
+    <filter id="soft" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="10"/>
+    </filter>
+  </defs>
+
+  <circle cx="500" cy="500" r="380" fill="url(#glow)"/>
+  <ellipse cx="500" cy="815" rx="300" ry="34" fill="#7c3aed" opacity="0.20"/>
+
+  <g stroke="url(#ring)" stroke-width="2.5" opacity="0.5">
+    <ellipse cx="500" cy="500" rx="410" ry="180" transform="rotate(-22 500 500)"/>
+    <ellipse cx="500" cy="500" rx="410" ry="180" transform="rotate(28 500 500)"/>
+  </g>
+  <g fill="#22d3ee">
+    <circle cx="150" cy="565" r="9"/>
+    <circle cx="861" cy="405" r="9"/>
+  </g>
+  <circle cx="838" cy="612" r="10" fill="#c770f0"/>
+
+  <g stroke="#c770f0" stroke-width="2.4" opacity="0.55">
+    <path d="M235 360 L360 300 M235 360 L360 430 M235 360 L360 560
+             M235 500 L360 300 M235 500 L360 430 M235 500 L360 560
+             M235 640 L360 430 M235 640 L360 560 M235 640 L360 690
+             M360 300 L470 380 M360 430 L470 380 M360 430 L470 520
+             M360 560 L470 520 M360 560 L470 660 M360 690 L470 660"/>
+  </g>
+  <g fill="#0c0513" stroke="#c770f0" stroke-width="3.5">
+    <circle cx="235" cy="360" r="15"/><circle cx="235" cy="500" r="15"/><circle cx="235" cy="640" r="15"/>
+    <circle cx="360" cy="300" r="15"/><circle cx="360" cy="430" r="15"/>
+    <circle cx="360" cy="560" r="15"/><circle cx="360" cy="690" r="15"/>
+  </g>
+  <g fill="#c770f0">
+    <circle cx="470" cy="380" r="16"/><circle cx="470" cy="520" r="16"/><circle cx="470" cy="660" r="16"/>
+  </g>
+
+  <g>
+    <rect x="470" y="360" width="290" height="290" rx="46" fill="url(#chip)"/>
+    <rect x="470" y="360" width="290" height="290" rx="46" fill="#0c0513" opacity="0.12"/>
+    <rect x="502" y="392" width="226" height="226" rx="28" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="3"/>
+    <g stroke="#c770f0" stroke-width="10" stroke-linecap="round">
+      <path d="M520 360 V326 M580 360 V326 M640 360 V326 M700 360 V326"/>
+      <path d="M520 650 V684 M580 650 V684 M640 650 V684 M700 650 V684"/>
+      <path d="M470 420 H436 M470 480 H436 M470 540 H436"/>
+      <path d="M760 420 H794 M760 480 H794 M760 540 H794"/>
+    </g>
+    <g transform="translate(615 505)" stroke="#ffffff" stroke-width="6" stroke-linecap="round" fill="none">
+      <path d="M-46 -30 q-34 6 -34 34 q0 24 22 32 q-4 26 22 34 q22 6 36 -10" stroke-opacity="0.95"/>
+      <path d="M46 -30 q34 6 34 34 q0 24 -22 32 q4 26 -22 34 q-22 6 -36 -10" stroke-opacity="0.95"/>
+      <path d="M0 -44 V64" stroke-opacity="0.9"/>
+      <path d="M0 -14 H-30 M0 16 H30 M0 -14 H26 M0 40 H-24" stroke-opacity="0.8"/>
+    </g>
+    <g fill="#22d3ee">
+      <circle cx="585" cy="491" r="7"/><circle cx="645" cy="521" r="7"/>
+      <circle cx="615" cy="461" r="7"/><circle cx="591" cy="545" r="7"/>
+      <circle cx="639" cy="559" r="7"/>
+    </g>
+  </g>
+
+  <g transform="rotate(-8 300 250)">
+    <rect x="196" y="150" width="230" height="150" rx="20" fill="url(#card)"/>
+    <g stroke="#ffffff" stroke-width="7" stroke-linecap="round" opacity="0.9">
+      <path d="M250 205 l-24 20 l24 20"/>
+      <path d="M330 205 l24 20 l-24 20"/>
+      <path d="M300 190 l-20 70"/>
+    </g>
+  </g>
+
+  <g transform="rotate(9 760 230)" filter="url(#soft)" opacity="0.28">
+    <rect x="648" y="150" width="220" height="160" rx="20" fill="#c770f0"/>
+  </g>
+  <g transform="rotate(9 760 230)">
+    <rect x="648" y="150" width="220" height="160" rx="20" fill="url(#card)"/>
+    <rect x="686" y="188" width="120" height="84" rx="6" fill="none" stroke="#22d3ee" stroke-width="5"/>
+    <path d="M686 188 h20 M686 188 v20 M806 272 h-20 M806 272 v-20" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+    <circle cx="746" cy="230" r="16" fill="#ffffff" opacity="0.85"/>
+  </g>
+
+  <g transform="rotate(-6 780 690)">
+    <rect x="690" y="612" width="196" height="150" rx="20" fill="url(#card)"/>
+    <path d="M714 726 L748 690 L778 712 L860 640" fill="none" stroke="#22d3ee" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+    <g fill="#ffffff" opacity="0.9"><circle cx="714" cy="726" r="6"/><circle cx="748" cy="690" r="6"/><circle cx="778" cy="712" r="6"/><circle cx="860" cy="640" r="6"/></g>
+  </g>
+
+  <g fill="#c770f0">
+    <circle cx="300" cy="760" r="7"/><circle cx="420" cy="800" r="5"/>
+    <circle cx="560" cy="785" r="6"/><circle cx="205" cy="700" r="5"/>
+  </g>
+  <g fill="#22d3ee" opacity="0.8">
+    <circle cx="900" cy="520" r="5"/><circle cx="120" cy="430" r="5"/><circle cx="640" cy="150" r="5"/>
+  </g>
+</svg>
