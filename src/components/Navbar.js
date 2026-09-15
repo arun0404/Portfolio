@@ -1,41 +1,44 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "react-bootstrap/Navbar";
-import Nav from "react-bootstrap/Nav";
-import Container from "react-bootstrap/Container";
-import Button from "react-bootstrap/Button";
 import { CgGitFork } from "react-icons/cg";
 import {
-  AiFillStar,
+  AiFillGithub,
   AiOutlineHome,
+  AiOutlineTool,
   AiOutlineFundProjectionScreen,
-  AiOutlineUser,
+  AiOutlineClockCircle,
   AiOutlineMail,
+  AiOutlineClose,
 } from "react-icons/ai";
-
-import { CgFileDocument } from "react-icons/cg";
+import { FaLinkedinIn } from "react-icons/fa";
 import ThemeToggle from "./ThemeToggle";
 
-const SECTION_IDS = ["home", "about", "projects", "resume", "contact"];
+const SECTION_IDS = ["home", "skills", "projects", "journey", "contact"];
+
+const NAV_ITEMS = [
+  { id: "home", label: "Home", icon: AiOutlineHome },
+  { id: "skills", label: "Skills", icon: AiOutlineTool },
+  { id: "projects", label: "Projects", icon: AiOutlineFundProjectionScreen },
+  { id: "journey", label: "Timeline", icon: AiOutlineClockCircle },
+  { id: "contact", label: "Contact", icon: AiOutlineMail },
+];
 
 function NavBar() {
-  const [expand, updateExpanded] = useState(false);
-  const [navColour, updateNavbar] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
 
-  function scrollHandler() {
-    if (window.scrollY >= 20) {
-      updateNavbar(true);
-    } else {
-      updateNavbar(false);
+  useEffect(() => {
+    function scrollHandler() {
+      setScrolled(window.scrollY >= 20);
     }
-  }
-
-  window.addEventListener("scroll", scrollHandler);
+    window.addEventListener("scroll", scrollHandler);
+    return () => window.removeEventListener("scroll", scrollHandler);
+  }, []);
 
   // Scroll-spy: highlight whichever section is currently crossing the
   // vertical center of the viewport, rather than reacting to raw
-  // intersection ratio — sections here vary a lot in height (Home's
-  // full-viewport hero vs. Contact's shorter content), so a plain ratio
+  // intersection ratio — sections here vary a lot in height (Home's tall
+  // hero+journey vs. Contact's shorter content), so a plain ratio
   // comparison would favor the tallest section almost all the time.
   useEffect(() => {
     const sections = SECTION_IDS.map((id) => document.getElementById(id)).filter(
@@ -59,109 +62,113 @@ function NavBar() {
     return () => observer.disconnect();
   }, []);
 
-  const navLinkClass = (id) =>
-    activeSection === id ? "active" : undefined;
+  // Lock background scroll while the overlay is open, and let Escape close it.
+  useEffect(() => {
+    if (!menuOpen) return undefined;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    function onKeyDown(e) {
+      if (e.key === "Escape") setMenuOpen(false);
+    }
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [menuOpen]);
+
+  const closeMenu = () => setMenuOpen(false);
 
   return (
-    <Navbar
-      expanded={expand}
-      fixed="top"
-      expand="md"
-      className={navColour ? "sticky" : "navbar"}
-    >
-      <Container>
-        <Navbar.Brand href="#home" className="d-flex logo-text">
-          Ak.
-        </Navbar.Brand>
-        <Navbar.Toggle
-          aria-controls="responsive-navbar-nav"
-          onClick={() => {
-            updateExpanded(expand ? false : "expanded");
-          }}
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </Navbar.Toggle>
-        <Navbar.Collapse id="responsive-navbar-nav">
-          <Nav className="ms-auto" defaultActiveKey="#home">
-            <Nav.Item>
-              <Nav.Link
-                href="#home"
-                className={navLinkClass("home")}
-                aria-current={activeSection === "home" ? "true" : undefined}
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlineHome style={{ marginBottom: "2px" }} /> Home
-              </Nav.Link>
-            </Nav.Item>
+    <>
+      <header className={"site-bar" + (scrolled ? " site-bar--scrolled" : "")}>
+        <div className="site-bar__left">
+          <a href="#home" className="site-bar__mark" aria-label="Arun — back to top">
+            Ak<span className="site-bar__dot">.</span>
+          </a>
+          <span className="site-bar__eyebrow">Train — Ship — Deploy — Iterate</span>
+        </div>
 
-            <Nav.Item>
-              <Nav.Link
-                href="#about"
-                className={navLinkClass("about")}
-                aria-current={activeSection === "about" ? "true" : undefined}
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlineUser style={{ marginBottom: "2px" }} /> About
-              </Nav.Link>
-            </Nav.Item>
+        <div className="site-bar__actions">
+          <ThemeToggle />
+          <button
+            type="button"
+            className="menu-pill"
+            aria-expanded={menuOpen}
+            aria-controls="nav-overlay"
+            onClick={() => setMenuOpen(true)}
+          >
+            Menu
+            <span className="menu-pill__icon" aria-hidden="true">
+              +
+            </span>
+          </button>
+        </div>
+      </header>
 
-            <Nav.Item>
-              <Nav.Link
-                href="#projects"
-                className={navLinkClass("projects")}
-                aria-current={activeSection === "projects" ? "true" : undefined}
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlineFundProjectionScreen
-                  style={{ marginBottom: "2px" }}
-                />{" "}
-                Projects
-              </Nav.Link>
-            </Nav.Item>
+      <div
+        id="nav-overlay"
+        className={"menu-overlay" + (menuOpen ? " menu-overlay--open" : "")}
+        aria-hidden={!menuOpen}
+      >
+        <div className="menu-overlay__topbar">
+          <a href="#home" className="site-bar__mark" onClick={closeMenu} aria-label="Arun — back to top">
+            Ak<span className="site-bar__dot">.</span>
+          </a>
+          <button type="button" className="menu-pill" onClick={closeMenu}>
+            Close
+            <AiOutlineClose className="menu-pill__icon" aria-hidden="true" />
+          </button>
+        </div>
 
-            <Nav.Item>
-              <Nav.Link
-                href="#resume"
-                className={navLinkClass("resume")}
-                aria-current={activeSection === "resume" ? "true" : undefined}
-                onClick={() => updateExpanded(false)}
-              >
-                <CgFileDocument style={{ marginBottom: "2px" }} /> Resume
-              </Nav.Link>
-            </Nav.Item>
+        <nav className="menu-overlay__list" aria-label="Section navigation">
+          {NAV_ITEMS.map((item, i) => (
+            <a
+              key={item.id}
+              href={`#${item.id}`}
+              onClick={closeMenu}
+              className={
+                "menu-overlay__link" +
+                (activeSection === item.id ? " menu-overlay__link--active" : "")
+              }
+            >
+              <span className="menu-overlay__index">{String(i + 1).padStart(2, "0")}</span>
+              {item.label}
+            </a>
+          ))}
+        </nav>
 
-            <Nav.Item>
-              <Nav.Link
-                href="#contact"
-                className={navLinkClass("contact")}
-                aria-current={activeSection === "contact" ? "true" : undefined}
-                onClick={() => updateExpanded(false)}
-              >
-                <AiOutlineMail style={{ marginBottom: "2px" }} /> Contact
-              </Nav.Link>
-            </Nav.Item>
-
-            <Nav.Item className="theme-toggle-item">
-              <ThemeToggle />
-            </Nav.Item>
-
-            <Nav.Item className="fork-btn">
-              <Button
-                href="https://github.com/arun0404/Portfolio"
-                target="_blank"
-                className="fork-btn-inner"
-                aria-label="Fork this repo on GitHub"
-              >
-                <CgGitFork style={{ fontSize: "1.2em" }} />{" "}
-                <AiFillStar style={{ fontSize: "1.1em" }} />
-              </Button>
-            </Nav.Item>
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+        <div className="menu-overlay__footer">
+          <span>Bangalore, India</span>
+          <div className="menu-overlay__footer-links">
+            <a
+              href="https://github.com/arun0404"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="GitHub"
+            >
+              <AiFillGithub />
+            </a>
+            <a
+              href="https://www.linkedin.com/in/arun0404/"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="LinkedIn"
+            >
+              <FaLinkedinIn />
+            </a>
+            <a
+              href="https://github.com/arun0404/Portfolio"
+              target="_blank"
+              rel="noreferrer"
+              aria-label="Fork this repo on GitHub"
+            >
+              <CgGitFork />
+            </a>
+          </div>
+        </div>
+      </div>
+    </>
   );
 }
 

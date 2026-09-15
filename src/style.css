@@ -20,7 +20,7 @@ html {
   --heading-color: #ffffff;
   --quote-footer-color: #a588c0;
 
-  /* Single-page layout: nav links jump to #home/#about/etc. via native
+  /* Single-page layout: nav links jump to #home/#skills/etc. via native
      anchor navigation — this is what actually animates that jump. */
   scroll-behavior: smooth;
 }
@@ -32,9 +32,9 @@ html {
    without adding visible space, unlike padding-top, which most of these
    sections already have plenty of internally anyway). */
 section#home,
-section#about,
+section#skills,
 section#projects,
-section#resume,
+section#journey,
 section#contact {
   scroll-margin-top: 80px;
 }
@@ -211,7 +211,286 @@ h6,
 }
 
 /* --------- */
-/* Navbar Section  */
+/* Site header — minimal bar + full-screen numbered overlay menu, same
+   pattern at every viewport width (no separate desktop/mobile nav
+   layouts to keep in sync). Styled after a reference portfolio layout,
+   using this site's existing purple/dark tokens instead of copying its
+   accent color. */
+/* --------- */
+
+.site-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px clamp(20px, 4vw, 48px);
+  background: transparent;
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.site-bar--scrolled {
+  background: rgba(20, 15, 32, 0.78);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+}
+
+/* The header is fixed dark "chrome" in both themes, same rule the rest
+   of the site's chrome (old Navbar/Footer) already followed. */
+html[data-theme="light"] .site-bar--scrolled {
+  background: rgba(20, 15, 32, 0.88);
+}
+
+/* ...but only once scrolled — .site-bar itself is background:transparent
+   until then, so in light theme it floats directly over the page's own
+   light background instead of the dark hero. The mark/eyebrow/menu-pill/
+   theme-toggle text and borders below are white, tuned for that dark
+   backdrop, and disappear against a light one. Flip them dark only for
+   this unscrolled + light-theme combination; once site-bar--scrolled
+   kicks in the dark backdrop returns above, so the white defaults are
+   correct again and this selector no longer matches. */
+html[data-theme="light"] .site-bar:not(.site-bar--scrolled) .site-bar__mark,
+html[data-theme="light"] .site-bar:not(.site-bar--scrolled) .menu-pill,
+html[data-theme="light"] .site-bar:not(.site-bar--scrolled) .theme-toggle-btn {
+  color: var(--heading-color);
+}
+
+html[data-theme="light"] .site-bar:not(.site-bar--scrolled) .site-bar__eyebrow {
+  color: rgba(15, 23, 42, 0.55);
+}
+
+html[data-theme="light"] .site-bar:not(.site-bar--scrolled) .menu-pill,
+html[data-theme="light"] .site-bar:not(.site-bar--scrolled) .theme-toggle-btn {
+  border-color: rgba(15, 23, 42, 0.3);
+}
+
+.site-bar__left {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  min-width: 0;
+}
+
+.site-bar__mark {
+  font-weight: 800;
+  font-size: clamp(1.3rem, 2vw, 1.6rem);
+  color: #ffffff;
+  text-decoration: none;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.site-bar__dot {
+  color: var(--imp-text-color);
+}
+
+.site-bar__eyebrow {
+  display: none;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.5);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (min-width: 640px) {
+  .site-bar__eyebrow {
+    display: inline-block;
+  }
+}
+
+.site-bar__actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.menu-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.04);
+  color: #ffffff;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.menu-pill:hover,
+.menu-pill:focus-visible {
+  border-color: var(--imp-text-color);
+  color: var(--imp-text-color);
+  box-shadow: 0 0 12px rgba(199, 112, 240, 0.35);
+}
+
+.menu-pill__icon {
+  font-size: 1.05em;
+  display: inline-flex;
+}
+
+.menu-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0 clamp(24px, 6vw, 80px);
+  background: rgba(12, 5, 19, 0.97);
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-12px);
+  transition: opacity 0.3s ease, transform 0.3s ease, visibility 0s linear 0.3s;
+}
+
+.menu-overlay--open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.menu-overlay__topbar {
+  position: absolute;
+  top: 18px;
+  left: clamp(20px, 4vw, 48px);
+  right: clamp(20px, 4vw, 48px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.menu-overlay__list {
+  display: flex;
+  flex-direction: column;
+  gap: clamp(6px, 1.4vw, 14px);
+  margin: clamp(70px, 12vh, 110px) 0 clamp(40px, 6vh, 60px);
+}
+
+.menu-overlay__link {
+  display: flex;
+  align-items: baseline;
+  gap: 18px;
+  font-size: clamp(2.2rem, 7vw, 4.2rem);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
+  color: rgba(255, 255, 255, 0.45);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.menu-overlay__link:hover,
+.menu-overlay__link:focus-visible {
+  color: #ffffff;
+}
+
+.menu-overlay__link--active {
+  color: var(--imp-text-color);
+}
+
+.menu-overlay__index {
+  font-size: 0.32em;
+  font-weight: 600;
+  color: var(--imp-text-color);
+  min-width: 1.6em;
+}
+
+.menu-overlay__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: clamp(24px, 5vh, 48px);
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.menu-overlay__footer-links {
+  display: flex;
+  gap: 14px;
+}
+
+.menu-overlay__footer-links a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #ffffff;
+  font-size: 1.1rem;
+  transition: all 0.25s ease;
+}
+
+.menu-overlay__footer-links a:hover {
+  border-color: var(--imp-text-color);
+  color: var(--imp-text-color);
+}
+
+/* Light theme: the overlay used a fixed dark backdrop regardless of
+   theme, same as the rest of the site's chrome — but the menu should
+   switch to the light theme's white background (with the same purple
+   accents) once opened, rather than staying dark. The active-link,
+   index-number, and footer-link-hover colors already read from
+   var(--imp-text-color), so the purple accent carries over automatically;
+   only the background and the white/white-transparent text below need a
+   light-theme override. */
+html[data-theme="light"] .menu-overlay {
+  background: rgba(248, 250, 252, 0.97);
+}
+
+html[data-theme="light"] .menu-overlay__topbar .site-bar__mark {
+  color: var(--heading-color);
+}
+
+html[data-theme="light"] .menu-overlay__topbar .menu-pill {
+  color: var(--heading-color);
+  border-color: rgba(15, 23, 42, 0.3);
+}
+
+html[data-theme="light"] .menu-overlay__link:not(.menu-overlay__link--active) {
+  color: rgba(15, 23, 42, 0.35);
+}
+
+html[data-theme="light"] .menu-overlay__link:hover,
+html[data-theme="light"] .menu-overlay__link:focus-visible {
+  color: var(--heading-color);
+}
+
+html[data-theme="light"] .menu-overlay__footer {
+  color: rgba(15, 23, 42, 0.5);
+}
+
+html[data-theme="light"] .menu-overlay__footer-links a {
+  border-color: rgba(15, 23, 42, 0.25);
+  color: var(--heading-color);
+}
+
+/* --------- */
+/* Navbar Section (superseded by .site-bar / .menu-overlay above — kept
+   as-is rather than pruned, react-bootstrap's Navbar/Nav components are
+   no longer rendered so none of the classes below currently match
+   anything in the DOM) */
 /* --------- */
 .sticky {
   background-color: #1b1a2ea9 !important;
@@ -428,8 +707,15 @@ html[data-theme="light"] .navbar {
 
 .home-section {
   position: relative;
-  z-index: -1;
-  /* background-image: var(--image-gradient), url(./Assets/home-bg.jpg); */
+  /* Template leftover: this used to carry `z-index: -1`, presumably to
+     layer its own (now-commented-out) background-image behind something.
+     Left in place, it silently broke every click in the Hero — a negative
+     z-index on a positioned element with a non-positioned parent (this
+     section's own <section id="home"> wrapper doesn't establish a
+     stacking context) stacks the *entire hero subtree*, buttons included,
+     behind that parent for hit-testing, even though nothing else paints
+     over it so it still looks completely normal. Removed; nothing else
+     in this section relies on being behind its surroundings. */
   background-position: top center;
   background-repeat: no-repeat;
   padding-bottom: 30px !important;
@@ -442,14 +728,24 @@ html[data-theme="light"] .navbar {
   text-align: left;
 }
 
+.hero-eyebrow {
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  margin: 0 0 18px 45px;
+}
+
 .heading {
-  font-size: 2.4em !important;
+  font-size: clamp(1.6rem, 3vw, 2.4rem) !important;
   padding-left: 50px !important;
 }
 
 .heading-name {
-  font-size: 2.5em !important;
+  font-size: clamp(2.1rem, 5vw, 3.4rem) !important;
+  font-weight: 700;
   padding-left: 45px !important;
+  line-height: 1.15;
 }
 
 .main-name {
@@ -477,6 +773,81 @@ html[data-theme="light"] .navbar {
   }
   .Typewriter__cursor {
     display: none !important;
+  }
+
+  /* .Typewriter__wrapper is position:absolute above, so it takes up no
+     space in normal flow — harmless while nothing followed it, but now
+     the hero pitch/button sit right after it and would otherwise render
+     underneath it. Reserve the room it actually needs. */
+  .hero-type-wrap {
+    min-height: 74px;
+  }
+}
+
+.hero-pitch {
+  color: var(--text-color);
+  opacity: 0.85;
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  line-height: 1.6;
+  max-width: 46ch;
+  margin: 0 0 28px 45px;
+}
+
+.hero-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-left: 45px;
+}
+
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.25s ease;
+}
+
+.pill-btn--primary {
+  background: var(--imp-text-color);
+  color: #ffffff;
+  box-shadow: 0 6px 20px rgba(199, 112, 240, 0.28);
+}
+
+.pill-btn--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 26px rgba(199, 112, 240, 0.4);
+  color: #ffffff;
+}
+
+.pill-btn--ghost {
+  border: 1.5px solid var(--imp-text-color);
+  color: var(--imp-text-color);
+  background: transparent;
+}
+
+.pill-btn--ghost:hover {
+  background: var(--imp-text-color);
+  color: #ffffff;
+  transform: translateY(-2px);
+}
+
+@media (max-width: 767px) {
+  .hero-eyebrow,
+  .hero-pitch,
+  .hero-cta-row {
+    margin-left: 0 !important;
+    max-width: 100%;
+  }
+
+  .pill-btn {
+    flex: 1 1 auto;
+    justify-content: center;
   }
 }
 
@@ -798,10 +1169,10 @@ html[data-theme="light"] .navbar {
 }
 
 /* --------- */
-/* About */
+/* Skills */
 /* --------- */
 
-.about-section {
+.skills-section {
   position: relative !important;
   padding-top: 150px !important;
   padding-bottom: 30px !important;
@@ -879,7 +1250,42 @@ html[data-theme="light"] .navbar {
 
 @media (max-width: 767px) {
   .tech-icons {
+    /* Above 767px, letting each pill's width come from its own content
+       (width: fit-content above) reads as an intentional flowing "chip
+       cloud" — rows even out because enough pills fit per line. Below
+       767px only 1-2 fit per line, so the same fit-content sizing leaves
+       stray, off-center pills instead. Force a strict 2-up grid instead:
+       box-sizing so the fixed-width includes this rule's own padding,
+       and text wraps inside longer labels ("Qdrant / FAISS") rather than
+       stretching the pill. */
+    width: calc(50% - 20px) !important;
+    box-sizing: border-box !important;
     margin: 10px !important;
+  }
+}
+
+/* react-github-calendar's footer (contribution count + "Less/More" legend)
+   is a fixed flex row with no wrap built in — the legend's swatches are
+   raw fixed-size SVGs (sized by the blockSize prop passed to
+   GitHubCalendar in Github.js), not part of the responsively-scaled main
+   grid SVG, so past a certain narrow width they don't shrink and instead
+   overlap the count text. Target the library's stable BEM classnames
+   (react-activity-calendar__*), not its hashed CSS-module classes, since
+   those hashes can change between builds. */
+@media (max-width: 575px) {
+  .react-activity-calendar__footer {
+    flex-wrap: wrap !important;
+    row-gap: 10px;
+  }
+
+  .react-activity-calendar__count,
+  .react-activity-calendar__legend-colors {
+    font-size: 14px !important;
+  }
+
+  .react-activity-calendar__legend-colors svg {
+    width: 18px !important;
+    height: 18px !important;
   }
 }
 
@@ -911,17 +1317,160 @@ html[data-theme="light"] .navbar {
   }
 }
 /* --------- */
-/* Resume */
+/* Journey (Experience & Education) — lives on the Home page now */
 /* --------- */
 
-.resume-section {
-  position: relative !important;
-  padding-top: 110px !important;
-  padding-bottom: 30px !important;
-  /* Dropped for the same reason as .project-section above — matches the
-     particle-canvas brightness on Home/About. */
-  /* background-image: var(--section-background-color) !important; */
-  color: var(--text-color) !important;
+/* Flat, borderless vertical-axis timeline (styled after a reference
+   "year axis" portfolio layout) — no card boxes; a single accent line
+   runs down the left with a dot per entry, date/title/org/description
+   read top to bottom, tech stack as separate outlined pill badges. */
+.journey-wrap {
+  padding-top: 40px;
+  padding-bottom: 60px;
+}
+
+.journey-heading {
+  font-size: 2.6em;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-align: left;
+  margin-bottom: 0;
+  padding-left: 4px;
+}
+
+.journey-heading::after {
+  content: "";
+  display: block;
+  width: 64px;
+  height: 3px;
+  background: var(--imp-text-color);
+  margin-top: 14px;
+  margin-bottom: 36px;
+}
+
+.journey-subheading {
+  color: var(--text-color);
+  opacity: 0.55;
+  font-size: 0.85em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  text-align: left;
+  margin-top: 44px;
+  margin-bottom: 24px;
+  padding-left: 4px;
+}
+
+.journey-track {
+  position: relative;
+  padding-left: 32px;
+}
+
+.journey-track::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: 8px;
+  bottom: 8px;
+  width: 2px;
+  background: linear-gradient(
+    to bottom,
+    var(--imp-text-color),
+    rgba(199, 112, 240, 0.08)
+  );
+  opacity: 0.55;
+}
+
+.journey-entry {
+  position: relative;
+  margin-bottom: 44px;
+  text-align: left;
+}
+
+.journey-entry:last-child {
+  margin-bottom: 0;
+}
+
+.journey-entry-dot {
+  position: absolute;
+  left: -32px;
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--imp-text-color);
+  box-shadow: 0 0 10px var(--imp-text-color);
+}
+
+.journey-entry-date {
+  display: block;
+  font-size: 0.8em;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 6px;
+}
+
+.journey-entry-title {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: var(--heading-color);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.journey-entry-org {
+  color: var(--text-color);
+  opacity: 0.6;
+  font-size: 0.95em;
+  margin-bottom: 14px;
+}
+
+.journey-entry-desc {
+  color: var(--text-color);
+  line-height: 1.65;
+  max-width: 62ch;
+  margin-bottom: 16px;
+}
+
+.journey-entry-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.journey-entry-tag {
+  font-size: 0.72em;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--imp-text-color);
+  border: 1px solid var(--imp-text-color);
+  border-radius: 20px;
+  padding: 4px 12px;
+  opacity: 0.9;
+}
+
+@media (max-width: 767px) {
+  .journey-heading {
+    font-size: 1.8em;
+  }
+
+  .journey-track {
+    padding-left: 24px;
+  }
+
+  .journey-track::before {
+    left: 3px;
+  }
+
+  .journey-entry-dot {
+    left: -24px;
+  }
+
+  .journey-entry-title {
+    font-size: 1.2em;
+  }
 }
 
 .resume {

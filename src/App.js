@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import Preloader from "../src/components/Pre";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home/Home";
-import About from "./components/About/About";
+import Skills from "./components/Skills/Skills";
 import Projects from "./components/Projects/Projects";
+import Journey from "./components/Journey/Journey";
 import Footer from "./components/Footer";
-import ResumeNew from "./components/Resume/ResumeNew";
 import Contact from "./components/Contact/Contact";
 import Particle from "./components/Particle";
 import "./style.css";
@@ -33,14 +33,14 @@ function App() {
           <section id="home">
             <Home />
           </section>
-          <section id="about">
-            <About />
+          <section id="skills">
+            <Skills />
           </section>
           <section id="projects">
             <Projects />
           </section>
-          <section id="resume">
-            <ResumeNew />
+          <section id="journey">
+            <Journey />
           </section>
           <section id="contact">
             <Contact />
