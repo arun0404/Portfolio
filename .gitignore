@@ -27,3 +27,6 @@ yarn-error.log*
 
 Server/node_modules
 Server/config.js
+
+# Claude Code project instructions — local-only, not published to GitHub
+CLAUDE.md
