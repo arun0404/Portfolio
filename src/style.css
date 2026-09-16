@@ -1022,6 +1022,15 @@ html[data-theme="light"] .navbar {
   box-shadow: 0 4px 4px 5px rgba(129, 72, 144, 0.561) !important;
 }
 
+/* Reserve room for a two-line title (Bootstrap's h5 default: 1.25rem font
+   size, 1.2 line-height, so 2 lines = 3rem) so cards whose title happens to
+   wrap don't push their description/buttons lower than sibling cards in
+   the same row whose shorter title fits on one line. */
+.project-card-view .card-title {
+  min-height: 3rem;
+  line-height: 1.2;
+}
+
 .project-card-tag {
   display: inline-block;
   font-size: 0.72rem;
