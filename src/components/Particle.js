@@ -119,6 +119,11 @@ function Particle() {
     return base;
   }, [theme]);
 
+  // Particles are dark-theme-only — unmount entirely in light theme rather
+  // than just hiding the canvas, so the animation loop and hover/click
+  // interactivity handlers stop running instead of doing invisible work.
+  if (theme === "light") return null;
+
   // react-tsparticles (legacy `params` API) only reads its config on init,
   // so `key` forces a clean re-mount when the theme flips.
   return <Particles id="tsparticles" key={theme} params={params} />;
