@@ -19,7 +19,7 @@ const EXPERIENCE = [
   {
     id: "kinaxis",
     title: "Machine Learning Intern",
-    org: "Kinaxis India Pvt. Ltd.",
+    org: "Kinaxis India Pvt. Ltd. · Chennai, India",
     date: "Feb 2023 — Mar 2023",
     description:
       "Worked on machine learning algorithms for predictive analytics and developed applications using JavaScript, while gaining foundational knowledge of supply chain management concepts and hands-on exposure to Kinaxis's supply chain management product.",
