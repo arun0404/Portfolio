@@ -17,13 +17,13 @@ const EXPERIENCE = [
     tags: ["Python", "PyTorch", "YOLOv8", "LangChain", "LangGraph", "Ollama", "FastAPI"],
   },
   {
-    id: "voice-chatbot",
-    title: "RAG-Powered Gen-AI Chatbot with Voice Interface",
-    org: "Personal Project",
-    date: "Self-Directed",
+    id: "kinaxis",
+    title: "Machine Learning Intern",
+    org: "Kinaxis India Pvt. Ltd.",
+    date: "Feb 2023 — Mar 2023",
     description:
-      "Built a full-stack RAG chatbot end-to-end, reaching ~83% retrieval accuracy, then extended it with a full voice interface for spoken question-and-answer interaction.",
-    tags: ["Flask", "FAISS", "LangChain", "AWS Bedrock", "AWS Polly", "AWS Transcribe"],
+      "Worked on machine learning algorithms for predictive analytics and developed applications using JavaScript, while gaining foundational knowledge of supply chain management concepts and hands-on exposure to Kinaxis's supply chain management product.",
+    tags: ["Machine Learning", "JavaScript", "Supply Chain"],
   },
 ];
 
