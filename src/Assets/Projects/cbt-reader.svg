@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" width="400" height="260">
+  <defs>
+    <linearGradient id="bg6" x1="0" y1="0" x2="400" y2="260" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#1c1330"/>
+      <stop offset="1" stop-color="#0c0513"/>
+    </linearGradient>
+    <radialGradient id="glow6" cx="0.5" cy="0.45" r="0.6">
+      <stop offset="0" stop-color="#c770f0" stop-opacity="0.32"/>
+      <stop offset="1" stop-color="#c770f0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="card6" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#a855f7"/>
+      <stop offset="1" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="260" rx="14" fill="url(#bg6)"/>
+  <circle cx="200" cy="112" r="140" fill="url(#glow6)"/>
+
+  <text x="30" y="40" fill="#e8e2f0" font-family="Georgia, serif" font-size="19" font-weight="bold">CBT — Desktop TTS Reader</text>
+
+  <!-- desktop window chrome -->
+  <g transform="translate(46 64)">
+    <rect width="230" height="128" rx="10" fill="#1a1425" stroke="#3d2a52" stroke-width="1.5"/>
+    <rect width="230" height="22" rx="10" fill="#241a35"/>
+    <circle cx="16" cy="11" r="4" fill="#f0a3a3"/>
+    <circle cx="32" cy="11" r="4" fill="#f0d8a3"/>
+    <circle cx="48" cy="11" r="4" fill="#9ae6b4"/>
+
+    <!-- text lines with a highlighted word, mirroring word-level sync -->
+    <g stroke="#7a6f8c" stroke-width="4" stroke-linecap="round" opacity="0.8">
+      <path d="M18 46 h194"/>
+      <path d="M18 66 h150"/>
+      <path d="M18 86 h170"/>
+    </g>
+    <rect x="18" y="76" width="54" height="18" rx="4" fill="#22d3ee" opacity="0.85"/>
+    <g stroke="#0c0513" stroke-width="3" stroke-linecap="round">
+      <path d="M26 85 h38"/>
+    </g>
+
+    <!-- playback bar -->
+    <rect x="18" y="104" width="194" height="10" rx="5" fill="#2a1f3d"/>
+    <rect x="18" y="104" width="96" height="10" rx="5" fill="#c770f0"/>
+    <circle cx="114" cy="109" r="7" fill="#e8e2f0"/>
+  </g>
+
+  <!-- speaker + voices badge -->
+  <g transform="translate(330 96)">
+    <path d="M-20 -14 L-2 -14 L14 -30 V30 L-2 14 H-20 Z" fill="url(#card6)"/>
+    <path d="M22 -22 a34 34 0 0 1 0 44" stroke="#22d3ee" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M10 -10 a16 16 0 0 1 0 20" stroke="#22d3ee" stroke-width="4" fill="none" stroke-linecap="round" opacity="0.75"/>
+  </g>
+
+  <!-- air-gapped / offline badge -->
+  <g transform="translate(330 196)">
+    <rect x="-62" y="-16" width="124" height="32" rx="16" fill="#0c0513" stroke="#3d2a52" stroke-width="1.5"/>
+    <path d="M-40 -2 a10 10 0 0 1 20 0" fill="none" stroke="#22d3ee" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="-30" cy="4" r="2.6" fill="#22d3ee"/>
+    <line x1="-44" y1="-10" x2="-16" y2="12" stroke="#f0a3a3" stroke-width="2.4" stroke-linecap="round"/>
+    <text x="-2" y="6" fill="#e8e2f0" font-family="Verdana, sans-serif" font-size="11" font-weight="bold">AIR-GAPPED</text>
+  </g>
+</svg>

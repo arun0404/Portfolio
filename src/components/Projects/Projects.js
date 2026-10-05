@@ -5,7 +5,7 @@ import ragPlatform from "../../Assets/Projects/rag-platform.svg";
 import ttsEngine from "../../Assets/Projects/tts-engine.svg";
 import crashDetection from "../../Assets/Projects/crash-detection.svg";
 import blenderAutomation from "../../Assets/Projects/blender-automation.svg";
-import llmAgentic from "../../Assets/Projects/llm-agentic.svg";
+import cbtReader from "../../Assets/Projects/cbt-reader.svg";
 import voiceChatbot from "../../Assets/Projects/voice-chatbot.svg";
 
 const PROJECTS = [
@@ -46,13 +46,14 @@ const PROJECTS = [
     categories: ["Automation"],
   },
   {
-    id: "llm-agentic",
-    imgPath: llmAgentic,
-    title: "LLM Fine-Tuning & Agentic Workflows",
+    id: "cbt-reader",
+    imgPath: cbtReader,
+    title: "CBT — Offline Desktop TTS Reader",
     description:
-      "Applied LoRA/PEFT fine-tuning on Qwen for domain-specific document understanding, lifting response accuracy ~12% over the base model. Orchestrated LangChain and LangGraph agents across 4+ tools into autonomous document Q&A pipelines, using LangSmith to trace and debug multi-step runs.",
-    tag: "Confidential — Enterprise Knowledge Base",
-    categories: ["LLM & Agents"],
+      "Built a fully air-gapped Windows desktop reader pairing Piper neural TTS with torchaudio's MMS_FA forced-alignment model for word-level synchronized highlighting. Smart text preprocessing handles abbreviations, units, and acronyms, with client-side playback speed changes that need no re-synthesis.",
+    ghLink: "https://github.com/arun0404/CBT",
+    tag: "Personal Project — Self-Directed",
+    categories: ["Voice AI"],
   },
   {
     id: "voice-chatbot",
@@ -65,7 +66,7 @@ const PROJECTS = [
   },
 ];
 
-const CATEGORIES = ["All", "RAG", "Computer Vision", "LLM & Agents", "Voice AI", "Automation"];
+const CATEGORIES = ["All", "RAG", "Computer Vision", "Voice AI", "Automation"];
 
 function Projects() {
   const [selectedCategory, setSelectedCategory] = useState("All");
@@ -152,6 +153,8 @@ function Projects() {
                 title={project.title}
                 description={project.description}
                 tag={project.tag}
+                ghLink={project.ghLink}
+                demoLink={project.demoLink}
               />
             </Col>
           ))}
