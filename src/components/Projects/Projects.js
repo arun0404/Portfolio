@@ -23,8 +23,9 @@ const PROJECTS = [
     imgPath: ttsEngine,
     title: "Offline TTS Engine",
     description:
-      "Built a fully offline text-to-speech engine with word-level synchronized highlighting and an intelligent text-normalization layer for engineering abbreviations, units, and symbols. A custom caching layer cut repeated-inference latency and kept playback responsive.",
-    tag: "Confidential — Defense-Sector Client",
+      "Built a fully offline text-to-speech web app using FastAPI and pyttsx3, generating speech locally through Windows SAPI voices (including Indian English voices) with no internet or external API calls. Added voice-calibration logic to normalize speaking rate across voices, plus adjustable speed/volume, in-browser playback, and WAV export.",
+    ghLink: "https://github.com/arun0404/Offline-TTS-pyttsx3",
+    tag: "Personal Project — Self-Directed",
     categories: ["Voice AI"],
   },
   {
