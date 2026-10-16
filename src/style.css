@@ -51,7 +51,11 @@ html[data-theme="light"] {
      softer once headings around it are solid black. */
   --imp-text-color: #5b21b6;
 
-  --body-gradient: linear-gradient(to bottom, #faf8ff, #f3eefc);
+  /* Flat off-white canvas — the dot matrix + ambient glows below supply
+     the texture, so this stays a clean single color rather than a
+     gradient (still a <gradient> value since index.css consumes it as a
+     background-image). */
+  --body-gradient: linear-gradient(#faf8ff, #faf8ff);
   --text-color: #241c33;
   --heading-color: #0f172a;
   --quote-footer-color: #6b4f8a;
@@ -59,16 +63,13 @@ html[data-theme="light"] {
 
 /* Light theme has no particle canvas (Particle.js unmounts entirely —
    see its own comments), so the page reads flat without some texture of
-   its own. Layer a faint technical grid over the body gradient and give
-   the hero a soft ambient glow behind its illustration to compensate. */
+   its own. A faint dot matrix over the base canvas stands in for it;
+   see .home-header::before / .hero-illustration::before below for the
+   two ambient glows behind the hero content and illustration. */
 html[data-theme="light"] body {
-  background-image: linear-gradient(
-      rgba(91, 33, 182, 0.05) 1px,
-      transparent 1px
-    ),
-    linear-gradient(90deg, rgba(91, 33, 182, 0.05) 1px, transparent 1px),
+  background-image: radial-gradient(rgba(192, 132, 252, 0.35) 1px, transparent 1px),
     var(--body-gradient);
-  background-size: 24px 24px, 24px 24px, 100% 100%;
+  background-size: 28px 28px, 100% 100%;
 }
 
 .purple {
@@ -717,6 +718,29 @@ html[data-theme="light"] .navbar {
 
 .home-header {
   padding-top: 80px !important;
+}
+
+/* Ambient glow behind the hero text — confined to the upper-left region
+   (heading/eyebrow) rather than the full column height, so it doesn't
+   sit behind the CTA buttons lower down and wash out their contrast. */
+html[data-theme="light"] .home-header {
+  position: relative;
+}
+
+html[data-theme="light"] .home-header::before {
+  content: "";
+  position: absolute;
+  top: -5%;
+  left: -5%;
+  width: 55%;
+  height: 55%;
+  background: radial-gradient(
+    circle,
+    rgba(216, 180, 254, 0.25),
+    rgba(216, 180, 254, 0) 70%
+  );
+  filter: blur(64px);
+  pointer-events: none;
 }
 
 .home-section {
