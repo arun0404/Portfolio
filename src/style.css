@@ -51,10 +51,24 @@ html[data-theme="light"] {
      softer once headings around it are solid black. */
   --imp-text-color: #5b21b6;
 
-  --body-gradient: linear-gradient(to bottom, #f8fafc, #edf2f7);
+  --body-gradient: linear-gradient(to bottom, #faf8ff, #f3eefc);
   --text-color: #241c33;
   --heading-color: #0f172a;
   --quote-footer-color: #6b4f8a;
+}
+
+/* Light theme has no particle canvas (Particle.js unmounts entirely —
+   see its own comments), so the page reads flat without some texture of
+   its own. Layer a faint technical grid over the body gradient and give
+   the hero a soft ambient glow behind its illustration to compensate. */
+html[data-theme="light"] body {
+  background-image: linear-gradient(
+      rgba(91, 33, 182, 0.05) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(91, 33, 182, 0.05) 1px, transparent 1px),
+    var(--body-gradient);
+  background-size: 24px 24px, 24px 24px, 100% 100%;
 }
 
 .purple {
@@ -726,6 +740,27 @@ html[data-theme="light"] .navbar {
   padding: 9rem 0 2rem !important;
   color: var(--text-color);
   text-align: left;
+}
+
+/* Glow sits behind the illustration only (not the whole hero), scaling
+   with it via inset: -15% rather than fixed coordinates/size, so it can't
+   overflow into the text column or break narrow-viewport reflow — the
+   wrapper itself is unstyled/static, it only exists to anchor ::before. */
+html[data-theme="light"] .hero-illustration {
+  position: relative;
+}
+
+html[data-theme="light"] .hero-illustration::before {
+  content: "";
+  position: absolute;
+  inset: -15%;
+  background: radial-gradient(
+    circle,
+    rgba(216, 180, 254, 0.25),
+    rgba(216, 180, 254, 0) 70%
+  );
+  filter: blur(64px);
+  pointer-events: none;
 }
 
 .hero-eyebrow {
