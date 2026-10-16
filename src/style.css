@@ -716,6 +716,20 @@ html[data-theme="light"] .navbar {
   z-index: -1 !important;
 }
 
+/* Same fixed-full-viewport-behind-everything treatment as #tsparticles
+   above, for SpaceBackground.js's WebGL canvas. pointer-events: none is
+   belt-and-braces here (the negative z-index already keeps it out of the
+   hit-testing path for content painted above it) since a <canvas>, unlike
+   a CSS background-image, is normally a hit-testable element. */
+.space-background {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+
 .home-header {
   padding-top: 80px !important;
 }

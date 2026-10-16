@@ -11,3 +11,12 @@ global.IntersectionObserver = class IntersectionObserver {
   unobserve() {}
   disconnect() {}
 };
+
+// jsdom doesn't implement ResizeObserver either, which react-three-fiber's
+// <Canvas> (SpaceBackground.js) uses via react-use-measure to track its
+// container size — same gap, same stub pattern as above.
+global.ResizeObserver = class ResizeObserver {
+  observe() {}
+  unobserve() {}
+  disconnect() {}
+};

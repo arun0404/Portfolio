@@ -7,7 +7,7 @@ import Projects from "./components/Projects/Projects";
 import Journey from "./components/Journey/Journey";
 import Footer from "./components/Footer";
 import Contact from "./components/Contact/Contact";
-import Particle from "./components/Particle";
+import SpaceBackground from "./components/SpaceBackground";
 import "./style.css";
 import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -27,7 +27,7 @@ function App() {
     <>
       <Preloader load={load} />
       <div className="App" id={load ? "no-scroll" : "scroll"}>
-        <Particle />
+        <SpaceBackground />
         <Navbar />
         <div className="page-content">
           <section id="home">
