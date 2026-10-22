@@ -10,7 +10,9 @@ import {
   AiOutlineClose,
 } from "react-icons/ai";
 import { FaLinkedinIn } from "react-icons/fa";
-import ThemeToggle from "./ThemeToggle";
+// Light theme disabled — see the commented-out <ThemeToggle /> below for
+// how to bring it back.
+// import ThemeToggle from "./ThemeToggle";
 
 const SECTION_IDS = ["home", "skills", "projects", "journey", "contact"];
 
@@ -90,7 +92,9 @@ function NavBar() {
         </div>
 
         <div className="site-bar__actions">
-          <ThemeToggle />
+          {/* White/light theme disabled for now — uncomment to restore it,
+              along with the import above. */}
+          {/* <ThemeToggle /> */}
           <button
             type="button"
             className="menu-pill"
