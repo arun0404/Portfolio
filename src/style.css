@@ -1712,3 +1712,36 @@ html[data-theme="light"] .hero-illustration::before {
   border-color: var(--imp-text-color) !important;
   box-shadow: 0 0 8px rgba(199, 112, 240, 0.5);
 }
+
+/* Custom purple arrow cursor — replaces the native OS pointer globally via
+   a data-URI SVG. This is a static image swap (no JS, no animation),
+   unlike the mouse-follow glow-trail component built and then reverted
+   earlier this session. A second, brighter/larger SVG swaps in over
+   interactive elements so hover affordance still reads clearly. Both SVGs
+   share the same 32x32 canvas and tip position (4,4) so the click hotspot
+   stays pixel-accurate across the swap. Actual text-entry fields (the
+   Projects search box) are excluded and keep the native text-beam cursor
+   instead, since a pointer-style arrow there would look like the field
+   doesn't accept typed input.
+   Placed last in the file and marked !important: several earlier rules
+   (e.g. .tech-icons, .blog-link:hover) already set their own
+   cursor: pointer !important, which — being equal specificity and also
+   !important — would otherwise win the tie by simply appearing later in
+   the cascade than a rule placed near the top of the file. */
+html,
+body {
+  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M4 4 L4 24 L10 19 L14 28 L18 26 L13 17 L21 17 Z" fill="%23a855f7" stroke="%230f172a" stroke-width="1.5" stroke-linejoin="round"/></svg>') 4 4, auto;
+}
+
+a,
+button,
+[role="button"],
+.tech-icons,
+.project-card-view {
+  cursor: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><path d="M4 4 L4 27 L10.9 21.3 L15.5 31.6 L20.1 29.3 L14.4 19 L23.6 19 Z" fill="%23c084fc" stroke="%230f172a" stroke-width="2" stroke-linejoin="round"/></svg>') 4 4, pointer !important;
+}
+
+input,
+textarea {
+  cursor: text !important;
+}
