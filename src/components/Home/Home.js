@@ -5,6 +5,35 @@ import Type from "./Type";
 import pdf from "../../Assets/Arunkumar_Resume.pdf";
 import { AiOutlineDownload, AiOutlineArrowRight } from "react-icons/ai";
 
+const RESUME_FILENAME = "ArunKumar_Resume.pdf";
+
+// Vercel (and most static-asset CDNs) serve this file with its own
+// Content-Disposition header, naming it after the webpack content hash in
+// its on-disk filename (e.g. "Arunkumar_Resume.2f311e6bc705becbfd6e.pdf")
+// — browsers save using that server-provided filename instead of this
+// link's `download` attribute, which only applies when there's no
+// competing Content-Disposition. Fetching the file into a blob and
+// downloading *that* sidesteps the response headers entirely, so the
+// `download` attribute is honored everywhere, not just on the dev server
+// (which doesn't set Content-Disposition and "worked" by accident).
+async function handleResumeDownload(event) {
+  event.preventDefault();
+  try {
+    const response = await fetch(pdf);
+    const blob = await response.blob();
+    const blobUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = blobUrl;
+    link.download = RESUME_FILENAME;
+    link.click();
+    URL.revokeObjectURL(blobUrl);
+  } catch {
+    // fetch failed (offline, etc.) — fall back to a plain navigation so the
+    // PDF still opens, even if the saved name ends up host-dependent.
+    window.location.assign(pdf);
+  }
+}
+
 function Home() {
   return (
     <>
@@ -43,7 +72,8 @@ function Home() {
               <div className="hero-cta-row">
                 <a
                   href={pdf}
-                  download="ArunKumar_Resume.pdf"
+                  download={RESUME_FILENAME}
+                  onClick={handleResumeDownload}
                   className="pill-btn pill-btn--primary"
                 >
                   <AiOutlineDownload />
