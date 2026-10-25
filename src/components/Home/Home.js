@@ -43,9 +43,7 @@ function Home() {
               <div className="hero-cta-row">
                 <a
                   href={pdf}
-                  download="Arunkumar_Resume.pdf"
-                  target="_blank"
-                  rel="noreferrer"
+                  download="ArunKumar_Resume.pdf"
                   className="pill-btn pill-btn--primary"
                 >
                   <AiOutlineDownload />
